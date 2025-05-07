@@ -26,7 +26,7 @@ const registerUser = async (req, res) => {
     });
 
     const accessToken = jwt.sign({userId: user._id}, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: '1h'
+      expiresIn: '1d'
     });
 
     return res.status(201).json({
@@ -79,7 +79,7 @@ const loginUser = async (req, res) => {
     const accessToken = jwt.sign(
       { userId: user._id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '1d' }
     );
 
     return res.json({

@@ -1,5 +1,6 @@
 const express = require('express');
 const { authRoutes } = require('./routes/auth');
+const { noteRoutes } = require('./routes/note');
 
 const app = express();
 
@@ -7,15 +8,11 @@ const app = express();
 require('./config/db');
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/auth', authRoutes)
-
-app.get('/', (req, res) => {
-  return res.json({
-    message: 'Hello'
-  });
-})
+app.use('/', noteRoutes)
 
 
 app.listen(8000, () => {
