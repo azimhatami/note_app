@@ -9,6 +9,7 @@ router.get('/notes', authenticateToken, getNotes)
 router.post('/add-note', authenticateToken, addNote)
 router.put('/update-note/:noteId', authenticateToken, updateNote)
 router.delete('/delete-note/:noteId', authenticateToken, deleteNote)
+// router.get('/notes/:noteId', authenticateToken, getNoteByID)
 
 
 module.exports = {
