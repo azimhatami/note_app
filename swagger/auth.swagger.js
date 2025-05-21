@@ -1,77 +1,116 @@
 /**
  * @swagger
  * tags:
- *  name: Authentication
- *  description: User authentication and authorization
+ *   name: Authentication
+ *   description: User registration and login with JWT authentication
  */
 
 /**
  * @swagger
  * components:
- *  schemas:
- *    Register:
- *      type: object
- *      properties:
- *        fullName:
- *          type: string
- *          example: Ali Mohseni
- *        email:
- *          type: string
- *          example: test@gmail.com
- *        password:
- *          type: string
- *          example: testpass1
- *    Login:
- *      type: object
- *      properties:
- *        email:
- *          type: string
- *          example: test@gmail.com
- *        password:
- *          type: string
- *          example: testpass1
+ *   schemas:
+ *     RegisterUser:
+ *       type: object
+ *       required:
+ *         - phone
+ *       properties:
+ *         name:
+ *           type: string
+ *           example: "Ali"
+ *         family:
+ *           type: string
+ *           example: "Rezaei"
+ *         email:
+ *           type: string
+ *           example: "ali@example.com"
+ *         phone:
+ *           type: string
+ *           example: "09123456789"
+ *
+ *     LoginUser:
+ *       type: object
+ *       required:
+ *         - phone
+ *       properties:
+ *         phone:
+ *           type: string
+ *           example: "09123456789"
+ *
+ *     AuthResponse:
+ *       type: object
+ *       properties:
+ *         token:
+ *           type: string
+ *           description: JWT access token
+ *           example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *         user:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: string
+ *               example: "6649e327cfe4f9ec342012d3"
+ *             phone:
+ *               type: string
+ *               example: "09123456789"
+ *             role:
+ *               type: string
+ *               enum: [admin, manager, user]
+ *               example: "user"
  */
 
 /**
  * @swagger
- *
- * /auth/register:
- *  post:
- *    summary: Register user
- *    tags:
- *      - Authentication
- *    requestBody:
- *      content:
- *        application/x-www-form-urlencoded:
- *          schema:
- *            $ref: '#/components/schemas/Register'
- *
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Register'
- *    responses:
- *      201:
- *        description: User created successfully
+ * /api/auth/register:
+ *   post:
+ *     summary: Register a new user and receive a JWT token
+ *     tags:
+ *       - Authentication
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RegisterUser'
+ *     responses:
+ *       201:
+ *         description: Registration successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthResponse'
+ *       400:
+ *         description: Phone number is required
+ *       409:
+ *         description: Phone number already exists
+ *       500:
+ *         description: Internal server error
  */
 
 /**
  * @swagger
- *
- * /auth/login:
- *  post:
- *    summary: Login user
- *    tags:
- *      - Authentication
- *    requestBody:
- *      content:
- *        application/x-www-form-urlencoded:
- *          schema:
- *            $ref: '#/components/schemas/Login'
- *
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Login'
- *    responses:
- *      200:
- *        description: User login successful
+ * /api/auth/login:
+ *   post:
+ *     summary: Login with phone number and receive a JWT token
+ *     tags:
+ *       - Authentication
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/LoginUser'
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/AuthResponse'
+ *       400:
+ *         description: Phone number is required
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
  */
+
