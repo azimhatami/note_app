@@ -1,13 +1,19 @@
 {
   "name": "note_app",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple REST API for managing notes, built with Node.js, Express, and MongoDB.",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "test": "npx cypress run --spec 'cypress/e2e/api/notes.cy.js'"
   },
-  "keywords": [],
+  "keywords": [
+    "notes",
+    "api",
+    "express",
+    "mongodb"
+  ],
   "author": "Azim Hatami",
   "license": "ISC",
   "type": "commonjs",
