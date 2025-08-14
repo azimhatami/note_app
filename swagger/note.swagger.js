@@ -83,6 +83,8 @@
  * @swagger
  * /notes/{noteId}:
  *  get:
+ *    security:
+ *      - bearerAuth: []
  *    summary: Get a note by ID
  *    tags: [Notes]
  *    parameters:
