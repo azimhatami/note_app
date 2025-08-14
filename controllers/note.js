@@ -4,7 +4,7 @@ const noteModel = require('../models/note');
 // Add note
 const addNote = async (req, res) => {
   try {
-    const { title, content, tags } = req.body;
+    const { title, content, tags, isPinned } = req.body;
     const { userId } = req.user;
 
     if (!title || !content) {
@@ -12,10 +12,12 @@ const addNote = async (req, res) => {
     }
 
     const note = await noteModel.create({
+      userId,
       title,
       content,
       tags: tags || [],
-      userId
+      isPinned
+
     });
 
     return res.status(201).json({
@@ -89,6 +91,29 @@ const getNotes = async (req, res) => {
   }
 };
 
+// Get note
+const getNote = async (req, res) => {
+  try {
+    const { noteId } = req.params;
+    const { userId } = req.user;
+
+    const note = await noteModel.findOne({ _id: noteId, userId: userId });
+    
+    if (!note) return res.status(404).json({ message: 'Note not found' });
+
+    return res.status(200).json({
+      note,
+      message: 'Note retrieved successfully'
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: 'Internal Server Error',
+      error: error.message
+    });
+  }
+};
+
 // Delete note
 const deleteNote = async (req, res) => {
   try {
@@ -117,5 +142,6 @@ module.exports = {
   addNote,
   updateNote,
   getNotes,
+  getNote,
   deleteNote
 };

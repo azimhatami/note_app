@@ -4,6 +4,7 @@ const { noteRoutes } = require('./routes/note');
 const swaggerConfig = require('./config/swagger');
 
 const app = express();
+const port = process.env.PORT;
 
 // DB connection
 require('./config/db');
@@ -20,6 +21,6 @@ app.use('/auth', authRoutes)
 app.use('/', noteRoutes)
 
 
-app.listen(8000, () => {
-  console.log('Server runing on port: 8000, http://localhost:8000');
+app.listen(port, () => {
+  console.log(`Server runing on port: ${port}, http://localhost:${port}`);
 })
